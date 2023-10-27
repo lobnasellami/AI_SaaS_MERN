@@ -11,9 +11,9 @@
 // return res.send("hello")
 // });
 // app.listen(5000,()=> console.log("waw")) 
-import express from "express"
-import {config}from "dotenv"
-config()
-const app = express();
-app.use(express.json())
-app.listen(5000,()=> console.log("waw")) 
+import app from "./app.js"
+import connectionToDB from "./db/connection.js"
+const PORT=process.env.PORT || 5000;
+connectionToDB().then(()=>{
+    app.listen(PORT,()=> console.log("Server Open and connected to database  ")) ;
+}).catch((error)=>console.log(error));
