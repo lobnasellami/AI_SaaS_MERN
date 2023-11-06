@@ -32,5 +32,6 @@ const userSchema= new schema({
     chats:[chatSchema]
 
 });
-
+// the name inside model is important it should be the singuler of the collection , mongoose get User plurals it and look 
+//for the collection Users and connect to it  
 export default mongoose.model("User",userSchema)
