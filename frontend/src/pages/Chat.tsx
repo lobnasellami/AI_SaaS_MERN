@@ -6,13 +6,15 @@ import ChatItem from '../components/chat/ChatItem'
 import { IoMdSend } from 'react-icons/io'
 import {toast} from "react-hot-toast"
 
-import { sendChatRequest,getUserChats } from '../helpers/api-communicator'
+import { sendChatRequest,getUserChats, deleteUserChats } from '../helpers/api-communicator'
+import { Navigate, useNavigate } from 'react-router-dom'
 type Message ={
   role:"user"| "assistant";
   content : string;
 }
 
 const Chat = () => {
+  const navigate =useNavigate()
   const inputRef=useRef <HTMLInputElement|null>(null)
   const auth =useAuth()
   const [chatMessages,setChatMessages]=useState<Message[]>([])
@@ -29,6 +31,22 @@ const Chat = () => {
     setChatMessages([...chatData.chats])
 
   }
+
+  const handleDeleteChats= async ()=>{
+    try{
+      toast.loading("deleting chats",{id:"deleteChats"})
+      await deleteUserChats()
+      setChatMessages([])
+      toast.success("Chat deleted",{id:"deleteChats"})
+
+    }catch(error){
+      console.log(error)
+      toast.error("Enable to delete chat",{id:"deleteChats"})
+
+
+    }
+  }
+
  
   useLayoutEffect(() => {
     if (auth?.isLoggedIn && auth.user) {
@@ -44,6 +62,12 @@ const Chat = () => {
         });
     }
   }, [auth]);
+  useEffect(() => {
+    if (!auth?.user) {
+      return navigate("/login")
+
+    }},[auth]
+    );
 
   return (
     <Box sx={{display: "flex",flex: 1,width: "100%",height: "100%",mt: 3,gap: 3,}}>
@@ -61,7 +85,7 @@ const Chat = () => {
                   Feel free to inquire about a wide range of topics, including business,
                   education, and knowledge. However, please refrain from disclosing personal information.
                 </Typography>
-                <Button sx={{width:"200px",my:'auto',color:'white',fontWeight: 700,borderRadius:3,mx:"auto",bgcolor:red[300],":hover" :{bgcolor:red.A400 }}}>
+                <Button onClick={handleDeleteChats} sx={{width:"200px",my:'auto',color:'white',fontWeight: 700,borderRadius:3,mx:"auto",bgcolor:red[300],":hover" :{bgcolor:red.A400 }}}>
                   CLEAR CONVERSATION
                 </Button>  
           </Box>

@@ -7,7 +7,7 @@ const Logo = () => {
     marginRight:"auto",
     alignItems :"center",
     gap:"8px"
-}}> <Link to = {"/"}><img src="openai.png"
+}}> <Link to = {"/"}><img src="../../public/openai.png"
              alt="openai"
              width={"30px"} 
              height ={"30px"} 

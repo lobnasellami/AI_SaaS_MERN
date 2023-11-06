@@ -5,9 +5,11 @@
   import  Login  from './pages/Login'
   import  Signup from './pages/Signup'
   import  Chat  from './pages/Chat'
-  import {AuthProvider} from "./contexts/AuthContext"
+  import {AuthProvider, useAuth} from "./contexts/AuthContext"
+import NotFound from './pages/NotFound'
 
   function App() {
+    const auth=useAuth()
     return ( 
         <main>
         <AuthProvider>
@@ -16,7 +18,8 @@
             <Route path="/" element={<Home/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/signup" element={<Signup/>}/>
-            <Route path="/chat" element={<Chat/>}/>
+           <Route path="/chat" element={<Chat/>}/>
+           <Route path="*" element={<NotFound/>}/>
 
           </Routes>
           </AuthProvider>
